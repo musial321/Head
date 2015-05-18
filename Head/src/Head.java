@@ -1,112 +1,78 @@
 import java.io.*;
 
-public class Head 
-{
+public class Head {
 	static File input;
 	static int n=10;
 	
-	public static boolean parseArgs(String [] args)
-	{
-		boolean bool = true;
-		char arg1_0=' ';
-		char arg1_1=' ';
+	public static boolean parseArgs(String [] args) {
+		boolean validArgs = true;
 		String [] finalArgs = new String[3];
 		
-		if(args.length==3)
-		{
+		if(args.length==3) { 
 			finalArgs = args;
-			
 		}
-		if(args.length==1)
-		{
+		if(args.length==1) { //If user does not use -n, the new array defaults to {-n, 10, filename.txt}
 			finalArgs[0]="-n";
 			finalArgs[1]=Integer.toString(10);
 			finalArgs[2]=args[0];
 		}
 		
-		try
-		{
-			arg1_0 = finalArgs[0].charAt(0);
-			arg1_1 = finalArgs[0].charAt(1);
-		}
-		catch(Exception e)
-		{
-			bool=false;
+		if(!finalArgs[0].equals("-n")) { //Makes sure first argument is -n	
+			validArgs = false;
 		}
 		
-		if(arg1_0 != '-' || arg1_1 != 'n')		
-		{	
-		
-			bool = false;
-		}
-		
-		try
-		{
-			finalArgs[1] = Integer.toString((Integer.parseInt(finalArgs[1])));
-			n = Integer.parseInt(finalArgs[1]);
+		try {
+			n = Integer.parseInt(finalArgs[1]); //Tries to store the number following -n as an integer
 			
-			if(n<1)
-			{
-				bool = false;
+			if(n < 1) { //Makes sure n is greater than or equal to 1
+				validArgs = false;
 			}
 		}
-		catch(Exception e)
-		{
-			bool = false;
+		catch(Exception e) {
+			validArgs = false;
 		}
 		
-		try
-		{
+		try { //Tries to store final argument as a file
 			input = new File(finalArgs[2]);
 		
-			if(!input.exists())
-			{
-				bool = false;
+			if(!input.exists()) { //If file does not exist, lines cannot be read
+				validArgs = false;
 			}
 		}
-		catch(Exception e)
-		{
-			bool = false;
+		catch(Exception e) {
+			validArgs = false;
 		}
 		
-		return bool;
-		}
+		return validArgs; //Returns whether or not the arguments given can be used
+	}
 	
-	public static void main(String [] args) throws IOException
-	{
+	public static void main(String [] args) throws IOException {
 		boolean correctArgs;
 		correctArgs = parseArgs(args);
 	
-		if(!correctArgs)
-		{
+		if(!correctArgs) { //If arguments cannot be used
 			System.out.println("Argument error.");
 		}
-		if(correctArgs)
-		{
+		else {
 			BufferedReader in = null;
 			in = new BufferedReader(new FileReader(input));
 			String str = "";
 	
-			try
-			{
-					int i = 0;
+			try {
+				int i = 0;
 		
-					while(i<n)
-					{
-						str = in.readLine();
+				while(i < n) { //Prints lines to console up to line n
+					str = in.readLine();
 			
-						if(str!=null)
-						{
-							System.out.println(str);
-						}
+					if(str != null) {
+						System.out.println(str);
+					}
 						
-						i++;
-					}		
+					i++;
+				}		
 			}
-			finally
-			{
-				if (in!=null)
-				{
+			finally { //Closes BufferedReader
+				if (in != null) {
 					in.close();
 				}
 			}
