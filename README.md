@@ -3,5 +3,6 @@ Simulates the head command for file manipulation in Unix, but completely written
 
 # How to use
 1. Compile file with Javac
-2. By default, head will print the first 10 lines of its input to the standard output. The number of lines printed may be changed with a command line option. The following example shows the first 20 lines of filename:
-head -n 20 filename
+2. By default, head will print the first 10 lines of the input file to standard output. By using the -n command line option, you can instead specify a number of lines to print. The following call shows the first 30 lines of filename:
+
+java head -n 30 filename
